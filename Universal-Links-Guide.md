@@ -1,6 +1,6 @@
 # Universal Links and SwiftUI Video Calls
 
-When making a video call application, you may want shareable links to let your users fiends jump into the same video call.
+When making a video call application, you may want to share links to let your users fiends jump into the same video call or live stream that you're watching. The second best way this can be achieved is by sharing a room code for people to type into their version of the app, but a much better option is to share a link that opens the app right to the place you want. That is where we can use Universal Links.
 
 ## What are Universal Links?
 
@@ -12,12 +12,14 @@ Check out Apple's documentation for more information on what Universal Links are
 
 https://developer.apple.com/ios/universal-links/
 
+Universal Links also work on Android devices, but the setup on your website as well as the device is a little different.
+
 ## Setting Up Universal Links
 
 Setting up universal links has been made easier in recent years, but still has two main steps:
 
-1. Setting up on your server
-2. Setting up on your app
+1. Setting Up the Website
+2. Setting Up the App
 
 Let's start with the website side, to get that over with.
 
@@ -207,7 +209,9 @@ struct ContentView: View {
 }
 ```
 
-Above, the channel is set to a static string `"test"`, and the property isShowingVideo is set to true. isShowingVideo is a boolean which is used to decide if the video call view (`videoCallView`) should be presented or not by the NavigationView. The next things to add are quite straightforward, we need to join and leave the channel using the onAppear and onDisappear methods, and add some buttons to the top of the camera view.
+Above, the channel is set to a static string `"test"`, and the property isShowingVideo is set to true. The "test" string will be replaced with a random string generator in the final product on GitHub.
+
+isShowingVideo is a boolean which is used to decide if the video call view (`videoCallView`) should be presented or not by the NavigationView. The next things to add are quite straightforward, we need to join and leave the channel using the onAppear and onDisappear methods, and add some buttons to the top of the camera view.
 
 ```swift
 .onAppear(perform: {
@@ -228,7 +232,10 @@ If channelName is nil when the video view is appearing then we will close it aga
 
 To find out more about working with tokens using Agora's SDKs, here are a few resources:
 
-<TOKEN RESOURCES>
+- [Authenticate Your Users with Tokens](https://docs.agora.io/en/Interactive%20Broadcast/token_server)
+- [Connecting to Agora with Tokens](https://www.agora.io/en/blog/connecting-to-agora-with-tokens-using-swift/)
+
+---
 
 Now the final part of the UI is setting up the other buttons in that `videoCallView` above.
 
@@ -269,9 +276,17 @@ var videoCallView: some View {
 
 Two buttons have been added in the above code snippet, and since they're positioned in a `HStack`, they appear side by side, with a `Spacer()` inbetween them.
 
+<p align="center" width="30%">
+  <img src="media/in-video-call.jpeg"/>
+</p>
+
 The first button lets the user exit the current view, leaving the call and going back to the main screen. The second button creates a URL (using example.com as the domain) with the channel as a parameter. This generated URL will open up the default share screen, to send it natively via iMessage, AirDrop, email, etc.
 
-<Add Images>
+The share screen looks like this:
+
+<p align="center">
+  <img src="media/share-universal-link.jpeg"/>
+</p>
 
 ### Interpreting the Universal Link
 
@@ -322,6 +337,10 @@ if let channel = url.queryDictionary?["channel"] {
 
 The app is complete! Now when going to your domain address with the endpoint `join?channel=test`, it will launch your application and go straight to that channel name.
 
+<p align="center">
+  <img src="media/open-universal-link.gif"/>
+</p>
+
 ##  Testing
 
 This entire project is available on GitHub here:
@@ -334,3 +353,4 @@ When running the application, be sure to head over to the Signing and Capabiliti
 grep -r -m 1 "DEVELOPMENT_TEAM" .; grep -r -m 1 "PRODUCT_BUNDLE_IDENTIFIER" .
 ```
 
+## Other Resources
