@@ -14,6 +14,13 @@ https://developer.apple.com/ios/universal-links/
 
 Universal Links also work on Android devices, but the setup on your website as well as the device is a little different.
 
+## Prerequisites
+
+- [An Agora Developer Account - Sign up here](https://sso.agora.io/en/signup?utm_source=medium&utm_medium=blog&utm_campaign=universal-links-and-swiftui-video-calls)
+- Xcode 12.3 or later
+- A physical iOS device with iOS 13.0 or later
+- A public server with an SSL certificate (https)
+
 ## Setting Up Universal Links
 
 Setting up universal links has been made easier in recent years, but still has two main steps:
@@ -354,3 +361,8 @@ grep -r -m 1 "DEVELOPMENT_TEAM" .; grep -r -m 1 "PRODUCT_BUNDLE_IDENTIFIER" .
 ```
 
 ## Other Resources
+
+For more information about building applications using Agora SDKs, take a look at the [Agora Video Call Quickstart Guide](https://docs.agora.io/en/Video/start_call_ios?platform=iOS&utm_source=medium&utm_medium=blog&utm_campaign=universal-links-and-swiftui-video-calls) and [Agora API Reference](https://docs.agora.io/en/Video/API%20Reference/oc/docs/headers/Agora-Objective-C-API-Overview.html?utm_source=medium&utm_medium=blog&utm_campaign=universal-links-and-swiftui-video-calls).
+
+I also invite you to [join the Agora Developer Slack community](https://www.agora.io/en/join-slack/) to meet with our developer team as well as other like-minded developers and technical enthusiasts.
+

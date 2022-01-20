@@ -1,0 +1,16 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [{
+      "appID": "DEVELOPMENT_TEAM.PRODUCT_BUNDLE_IDENTIFIER",
+      "paths": ["/join/*", "/test/*"],
+      "components": [
+        { "/": "/test/*" },
+        {
+          "/": "/join/*",
+          "?": { "channel": "?*" }
+        }
+      ]}
+    ]
+  }
+}
