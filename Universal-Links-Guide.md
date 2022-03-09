@@ -1,14 +1,14 @@
 # Universal Links and SwiftUI Video Calls
 
-When making a video call application, you may want to share links to let your users fiends jump into the same video call or live stream that you're watching. The second best way this can be achieved is by sharing a room code for people to type into their version of the app, but a much better option is to share a link that opens the app right to the place you want. That is where we can use Universal Links.
+When making a video call application, you may want to share links to let your users' friends jump into the same video call or live stream that they're watching. The second-best way to achieve this is by sharing a room code for people to type in to their version of the app. But a much better option is to share a link that opens the app right to the place you want. That is where we can use universal links.
 
 ## What are Universal Links?
 
-Often, if there is an equivalent web page for a page that exists within an app. For example, if you're viewing an Instagram profile on your phone's web browser, there is also a way to show the same content within the Instagram app. Universal links are the gateway for going from the web browser content to the app's equivalent content.
+Often, if there is an equivalent web page for a view that exists in an app. For example, if you're viewing an Instagram profile on your phone's web browser, there is also a way to show the same content in the Instagram app. Universal links are the gateway for going from the web browser content to the app's equivalent content.
 
-Universal links can in some cases not have a web equivalent; such as a complex game that will not run in a web browser. A universal link in that scenario could lead to a template page, which can then be passed through to your application to render the full content or join the game.
+In some cases, universal links can’t have a web equivalent; for example, a complex game that will not run in a web browser. A universal link in that scenario could lead to a template page, which can then be passed through to your application to render the full content or join the game.
 
-Check out Apple's documentation for more information on what Universal Links are:
+Check out Apple's documentation for more information on universal links:
 
 https://developer.apple.com/ios/universal-links/
 
@@ -16,45 +16,43 @@ Universal Links also work on Android devices, but the setup on your website as w
 
 ## Prerequisites
 
-- [An Agora Developer Account - Sign up here](https://sso.agora.io/en/signup?utm_source=medium&utm_medium=blog&utm_campaign=universal-links-and-swiftui-video-calls)
+- [An Agora developer account - Sign up here](https://sso.agora.io/en/signup?utm_source=medium&utm_medium=blog&utm_campaign=universal-links-and-swiftui-video-calls)
 - Xcode 12.3 or later
 - A physical iOS device with iOS 13.0 or later
 - A public server with an SSL certificate (https)
 
 ## Setting Up Universal Links
 
-Setting up universal links has been made easier in recent years, but still has two main steps:
+Setting up universal links has been made easier in recent years, but it still has two main steps:
 
 1. Setting Up the Website
 2. Setting Up the App
 
-Let's start with the website side, to get that over with.
+Let's start with the website side.
 
 ### Setting Up the Website
 
-This section is probably the easiest part of Universal Links. All you need to do is add a file named `apple-app-site-association`, which contains the right values:
+This section is probably the easiest part of universal links. All you need to do is add a file named `apple-app-site-association`, which contains the correct values for your application:
 
 ```json
 {
   "applinks": {
     "apps": [],
-    "details": [
-      {
+    "details": [{
         "appIDs": ["DEVELOPMENT_TEAM.PRODUCT_BUNDLE_IDENTIFIER"],
         "components": [
           {
             "/": "*"
           }
         ]
-      }
-    ]
+    }]
   }
 }
 ```
 
-The above example will put a universal link button on every page of your website, see below how to specify specific URLs within your domain.
+The above example will put a universal link button on every page of your website. See below for how to specify specific URLs in your domain.
 
-You just need to replace DEVELOPMENT_TEAM and PRODUCT_BUNDLE_IDENTIFIER with the associated values from your app. To find them you can run a couple of commands into terminal from your project's root folder, such as this:
+You just need to replace DEVELOPMENT_TEAM and PRODUCT_BUNDLE_IDENTIFIER with the associated values from your app. To find them, you can run a couple of commands in a Terminal from your project's root folder, such as this:
 
 ```bash
 grep -r -m 1 "DEVELOPMENT_TEAM" .; grep -r -m 1 "PRODUCT_BUNDLE_IDENTIFIER" .
@@ -69,7 +67,7 @@ Your terminal will look similar to this:
 
 ```
 
-In this case, the values we want are `278494H572` and `io.agora.AppName` respectively.
+In this case, the values we want are `278494H572` and `io.agora.AppName`, respectively.
 
 To check that your website is set up correctly, head to [branch.io's validator](https://branch.io/resources/aasa-validator/). One common issue is that the `content-type` header cannot be found. If you face this issue, you will need to create or add these lines to `.htaccess` at the same location as the `apple-app-site-association` file:
 
@@ -81,7 +79,7 @@ ForceType 'application/json'
 
 ---
 
-With the current setup, all pages on the website will link through to the specified app. If you just want a specific part of your website to link to an app, you can add modify the components array object or add another one. For example, if the current components array is replaced with:
+With the current setup, all pages on the website will link through to the specified app. If you just want a specific part of your website to link to an app, you can modify the components array object or add another one. For example, if the current components array is replaced with:
 
 ```json
 "components": [
@@ -103,11 +101,11 @@ For our app, we are going to add the following component:
 }
 ```
 
-Using example.com as our domain address, this is what an example of this full URL could look like:
+Using example.com as our domain address, this is what an example of the full URL might look like:
 
 `https://www.example.com/join?channel=dkvn3lw2`
 
-For more information about how to set up Universal Links with an `apple-app-site-association` file, Apple has a great resource from WWDC 2019 [here](https://developer.apple.com/videos/play/wwdc2019/717).
+For more information about how to set up universal links with an `apple-app-site-association` file, Apple has a great resource from WWDC 2019 [here](https://developer.apple.com/videos/play/wwdc2019/717).
 
 The full file should look like this:
 
@@ -138,19 +136,19 @@ Now that that's set up, let's get to the app portion of our app.
 
 #### Installing the Package
 
-Set up a new SwiftUI app in Xcode, and head add the following Swift Package to your:
+Set up a new SwiftUI app in Xcode, and add the following Swift package to your project with this URL:
 
 `https://github.com/AgoraIO-Community/iOS-UIKit.git`
 
 > The current stable release of Agora UIKit is 1.7.1
 
-If you're not sure how to add a Swift Package, Apple's documentation has it covered with clear steps:
+If you're not sure how to add a Swift package, Apple's documentation has it covered with clear steps:
 
 https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app
 
 #### Setting the Views
 
-We'll get this part out of the way quickly, as we want to get back to the Universal Links part of this guide. The first thing we need to do is add a button to create and join a channel:
+We'll get this part out of the way quickly, as we want to get back to the universal links part of this guide. The first thing we need to do is add a button to create and join a channel:
 
 ```swift
 Button {
@@ -166,7 +164,7 @@ Button {
   <img src="media/create-button.jpeg"/>
 </p>
 
-By clicking this button we need to create a channel name and display an AgoraViewer. AgoraViewer is a subclass of View that is provided by Agora UIKit. This can be achieved with the following block of code:
+This button's action should create a channel name and display an AgoraViewer. AgoraViewer is a subclass of View that is provided by Agora UIKit. This can be achieved with the following block of code:
 
 ```swift
 import SwiftUI
@@ -216,6 +214,8 @@ struct ContentView: View {
 }
 ```
 
+[//]: <> "https://gist.github.com/maxxfrazer/d5cfacc3ba45e174dfe8168787f0075b?file=Agora-Univeral-Links-App-Shell.swift"
+
 Above, the channel is set to a static string `"test"`, and the property isShowingVideo is set to true. The "test" string will be replaced with a random string generator in the final product on GitHub.
 
 isShowingVideo is a boolean which is used to decide if the video call view (`videoCallView`) should be presented or not by the NavigationView. The next things to add are quite straightforward, we need to join and leave the channel using the onAppear and onDisappear methods, and add some buttons to the top of the camera view.
@@ -235,7 +235,9 @@ isShowingVideo is a boolean which is used to decide if the video call view (`vid
 })
 ```
 
-If channelName is nil when the video view is appearing then we will close it again, this is because a channel name is required, so something must have gone wrong getting to this stage. After that we call the builtin function from Agora UIKit to join the channel as a broadcaster. The second parameter in the join method is for a token, which I am not using in my test application, but is required for production apps that use Agora.
+If channelName is nil when the video view is appearing then we will close it again, this is because a channel name is required, so something must have gone wrong getting to this stage. After that we call the builtin function from Agora UIKit to join the channel as a broadcaster.
+
+The second parameter in the join method is for a token, which I am not using in my test application, but is required for production apps that use Agora.
 
 To find out more about working with tokens using Agora's SDKs, here are a few resources:
 
@@ -281,6 +283,8 @@ var videoCallView: some View {
 
 ```
 
+[//]: <> "https://gist.github.com/maxxfrazer/d5cfacc3ba45e174dfe8168787f0075b?file=Agora-Univeral-Links-App-Buttons.swift"
+
 Two buttons have been added in the above code snippet, and since they're positioned in a `HStack`, they appear side by side, with a `Spacer()` inbetween them.
 
 <p align="center" width="30%">
@@ -311,7 +315,7 @@ Once that's done, set the domains within the new capability, here:
   <img src="media/set-associated-domain-urls.png"/>
 </p>
 
-Replace "example.com" with your domain that is hosting the `apple-app-site-association`.
+The above entries say `applinks:example.com` and `applinks:www.example.com`. Replace “example.com” with your domain that is hosting the `apple-app-site-association`.
 
 The final step in this application is understanding when the app has been opened from a universal link, and getting the full URL used to open the app.
 
